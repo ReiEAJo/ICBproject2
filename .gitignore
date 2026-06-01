@@ -1,0 +1,94 @@
+# ---------------------------------------------------
+# 파이썬 데이터 분석용 .gitignore
+# ---------------------------------------------------
+
+# 1. 가상 환경 (uv 사용 규칙에 따른 .venv 포함)
+.venv/
+venv/
+env/
+ENV/
+
+# 2. 데이터 파일 및 폴더 (원본, 처리된 데이터 등)
+data/
+datasets/
+raw_data/
+processed_data/
+*.csv
+*.tsv
+*.xlsx
+*.xls
+*.json
+*.parquet
+*.feather
+*.h5
+*.hdf5
+*.db
+*.sqlite
+*.sqlite3
+
+# 3. Jupyter Notebook 및 IPython 관련 설정
+.ipynb_checkpoints/
+profile_default/
+ipython_config.py
+*.ipynb_checkpoints/
+
+# 4. 바이트 컴파일된 / 최적화된 파일 (파이썬 캐시)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 5. 환경 변수 파일 (비밀키, API 키 등 포함)
+.env
+.env.*
+
+# 6. 배포 / 패키징 / 빌드 폴더
+build/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# 7. 단위 테스트 / 커버리지 리포트
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# 8. 타입 체커 / 정적 분석 캐시
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.ruff_cache/
+
+# 9. IDE / 에디터 설정 파일
+.vscode/
+.idea/
+.spyderproject
+.spyproject
+*.swp
+*.swo
+*~
+
+# 10. OS 생성 파일 (macOS, Windows 등)
+.DS_Store
+Thumbs.db
