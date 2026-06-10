@@ -14,9 +14,9 @@ st.set_page_config(
 
 # Initialize Session State
 if "client_id" not in st.session_state:
-    st.session_state["client_id"] = os.getenv("NAVER_CLIENT_ID", "")
+    st.session_state["client_id"] = st.secrets.get("NAVER_CLIENT_ID", os.getenv("NAVER_CLIENT_ID", ""))
 if "client_secret" not in st.session_state:
-    st.session_state["client_secret"] = os.getenv("NAVER_CLIENT_SECRET", "")
+    st.session_state["client_secret"] = st.secrets.get("NAVER_CLIENT_SECRET", os.getenv("NAVER_CLIENT_SECRET", ""))
 if "keywords" not in st.session_state:
     st.session_state["keywords"] = []
 if "start_date" not in st.session_state:
@@ -49,7 +49,7 @@ st.markdown("""
 이 대시보드는 네이버 오픈 API를 활용하여 다양한 검색 결과 및 트렌드를 수집하고 분석합니다.
 
 ### 🚀 사용 방법
-1. **`.env` 파일**에 발급받은 네이버 API **Client ID**와 **Client Secret**을 설정해 주세요.
+1. **Streamlit Secrets** (또는 **`.env` 파일**)에 발급받은 네이버 API **Client ID**와 **Client Secret**을 설정해 주세요.
 2. 분석하고자 하는 **검색어**를 쉼표(`,`)로 구분하여 입력해 주세요.
 3. 데이터랩(트렌드) 분석을 위한 **검색 기간**을 설정해 주세요.
 4. 좌측 메뉴의 **각 카테고리(페이지)**를 클릭하여 상세 분석 결과를 확인하세요.
@@ -66,7 +66,7 @@ st.markdown("""
 """)
 
 if not st.session_state["client_id"] or not st.session_state["client_secret"]:
-    st.warning("⚠️ `.env` 파일에 네이버 API Key(NAVER_CLIENT_ID, NAVER_CLIENT_SECRET)를 입력하고 서버를 재시작해야 정상적으로 작동합니다.")
+    st.warning("⚠️ Streamlit 설정(Secrets) 또는 `.env` 파일에 네이버 API Key(NAVER_CLIENT_ID, NAVER_CLIENT_SECRET)를 입력해야 정상적으로 작동합니다.")
 elif not st.session_state["keywords"]:
     st.info("ℹ️ 분석을 시작하려면 검색어를 입력해 주세요.")
 else:

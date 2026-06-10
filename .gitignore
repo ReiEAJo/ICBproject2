@@ -104,3 +104,9 @@ Thumbs.db
 *.toml
 *.yaml
 *.yml
+
+# Streamlit 관련 설정 (배포용 설정 파일 및 예시 파일 허용)
+!.streamlit/
+.streamlit/secrets.toml
+!.streamlit/config.toml
+!.streamlit/secrets.toml.example
