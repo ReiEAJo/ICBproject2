@@ -96,3 +96,11 @@ Thumbs.db
 # 11. 숨김 파일 및 폴더 (hidden files and folders)
 .*
 !.gitignore
+
+# 12. 설정 파일 (Configuration files)
+*.ini
+*.cfg
+*.conf
+*.toml
+*.yaml
+*.yml
