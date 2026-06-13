@@ -6,6 +6,7 @@
 
 ## 🚀 Streamlit 접속 정보
 
+- **배포 접속 주소**: [https://icbproject2-jfmiypxymt4azyaxyatp2q.streamlit.app/Shopping_Trend](https://icbproject2-jfmiypxymt4azyaxyatp2q.streamlit.app/Shopping_Trend)
 - **로컬 접속 주소**: [http://localhost:8501](http://localhost:8501)
 
 ---
