@@ -53,8 +53,16 @@ streamlit run naver-api-app/app.py
 
 ---
 
-## 🛠️ 최근 작업 내역
+## 🛠️ 프로젝트 작업 내역
 
-- **Git 자동 Push Hooks 구축** ([`post-commit`](file:///C:/Users/Rei%20EA%20Jo/Downloads/icb10proj2/.git/hooks/post-commit))
-  - 변경사항 발생 시 즉시 반영될 수 있도록 Git Hook 설정을 적용했습니다.
-  - 사용자가 로컬에서 `git commit`을 진행하면, 현재 작업 중인 브랜치 정보를 감지하여 자동으로 원격 저장소(`origin`)에 `git push`를 실행합니다.
+### 1. Git 자동 Push Hooks 구축 (최근 작업)
+- **대상**: [`.git/hooks/post-commit`](file:///C:/Users/Rei%20EA%20Jo/Downloads/icb10proj2/.git/hooks/post-commit) 훅 설정
+- **내용**: 변경사항이 발생하여 로컬에서 `git commit`을 완료하면, 현재 활성화된 브랜치 명을 감지하여 자동으로 원격 저장소(`origin`)에 `git push`를 실행하도록 구현 및 적용 완료.
+
+### 2. Streamlit 배포 환경 설정
+- **내용**: 배포 환경에서 API Key를 안전하게 로드할 수 있도록 `st.secrets` 및 `.env` 파일 연동 설정을 적용하여 Streamlit Cloud 배포 진행.
+- **배포 주소**: [https://icbproject2-jfmiypxymt4azyaxyatp2q.streamlit.app/Shopping_Trend](https://icbproject2-jfmiypxymt4azyaxyatp2q.streamlit.app/Shopping_Trend)
+
+### 3. Naver API 통합 분석 대시보드 구축
+- **내용**: 네이버 오픈 API(검색, 데이터랩 트렌드 등)를 활용하여 다중 페이지 대시보드 구조 개발.
+- **대상 파일**: [`app.py`](file:///C:/Users/Rei%20EA%20Jo/Downloads/icb10proj2/naver-api-app/app.py) 및 `pages/` 폴더 내 다중 분석 스크립트.
