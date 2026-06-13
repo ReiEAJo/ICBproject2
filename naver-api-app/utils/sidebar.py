@@ -5,7 +5,7 @@ import os
 def render_sidebar():
     st.sidebar.title("⚙️ 설정 (Settings)")
     
-    # 1. API Key 세션 기본값 및 동기화
+    # 1. API Key 세션 기본값 및 동기화 (백업본을 활용한 멀티페이지 위젯 소멸 방지)
     st.sidebar.subheader("🔑 API 인증")
     
     if "client_id" not in st.session_state:
@@ -13,41 +13,62 @@ def render_sidebar():
     if "client_secret" not in st.session_state:
         st.session_state["client_secret"] = st.secrets.get("NAVER_CLIENT_SECRET", os.getenv("NAVER_CLIENT_SECRET", ""))
         
+    if "client_id_backup" not in st.session_state:
+        st.session_state["client_id_backup"] = st.session_state["client_id"]
+    if "client_secret_backup" not in st.session_state:
+        st.session_state["client_secret_backup"] = st.session_state["client_secret"]
+
+    def sync_credentials():
+        st.session_state["client_id"] = st.session_state["temp_client_id"]
+        st.session_state["client_id_backup"] = st.session_state["temp_client_id"]
+        
+    def sync_secret():
+        st.session_state["client_secret"] = st.session_state["temp_client_secret"]
+        st.session_state["client_secret_backup"] = st.session_state["temp_client_secret"]
+
     st.sidebar.text_input(
         "네이버 Client ID", 
-        key="client_id",
+        value=st.session_state["client_id_backup"],
+        key="temp_client_id",
+        on_change=sync_credentials,
         placeholder="Client ID를 입력하세요"
     )
     st.sidebar.text_input(
         "네이버 Client Secret", 
-        key="client_secret",
+        value=st.session_state["client_secret_backup"],
+        key="temp_client_secret",
         type="password",
+        on_change=sync_secret,
         placeholder="Client Secret을 입력하세요"
     )
     
-    # 2. 검색어 설정
+    # 2. 검색어 설정 (백업본을 활용한 멀티페이지 위젯 소멸 방지)
     st.sidebar.subheader("1. 검색어 (Keywords)")
     
     if "keywords" not in st.session_state:
         st.session_state["keywords"] = []
-    
-    # 입력 폼을 위한 임시 텍스트 세션 상태 관리
-    if "keywords_input_val" not in st.session_state:
-        st.session_state["keywords_input_val"] = ", ".join(st.session_state["keywords"])
         
-    keywords_input = st.sidebar.text_input(
+    if "keywords_backup" not in st.session_state:
+        # keywords 리스트 기반 초기화
+        st.session_state["keywords_backup"] = ", ".join(st.session_state["keywords"])
+
+    def sync_keywords():
+        val = st.session_state["temp_keywords_input"]
+        st.session_state["keywords_backup"] = val
+        if val:
+            st.session_state["keywords"] = [k.strip() for k in val.split(",") if k.strip()]
+        else:
+            st.session_state["keywords"] = []
+
+    st.sidebar.text_input(
         "검색어 입력 (쉼표로 구분)",
-        key="keywords_input_val",
+        value=st.session_state["keywords_backup"],
+        key="temp_keywords_input",
+        on_change=sync_keywords,
         placeholder="예: 스마트폰, 노트북, 태블릿"
     )
-    
-    # 파싱하여 실제 리스트 세션 상태 업데이트
-    if keywords_input:
-        st.session_state["keywords"] = [k.strip() for k in keywords_input.split(",") if k.strip()]
-    else:
-        st.session_state["keywords"] = []
         
-    # 3. 검색 기간 설정
+    # 3. 검색 기간 설정 (백업본을 활용한 멀티페이지 위젯 소멸 방지)
     st.sidebar.subheader("2. 검색 기간 (Date Range)")
     st.sidebar.caption("데이터랩 트렌드 API에 주로 적용됩니다.")
     
@@ -56,8 +77,31 @@ def render_sidebar():
     if "end_date" not in st.session_state:
         st.session_state["end_date"] = date.today()
         
-    start_date = st.sidebar.date_input("시작일", key="start_date")
-    end_date = st.sidebar.date_input("종료일", key="end_date")
+    if "start_date_backup" not in st.session_state:
+        st.session_state["start_date_backup"] = st.session_state["start_date"]
+    if "end_date_backup" not in st.session_state:
+        st.session_state["end_date_backup"] = st.session_state["end_date"]
+
+    def sync_start_date():
+        st.session_state["start_date"] = st.session_state["temp_start_date"]
+        st.session_state["start_date_backup"] = st.session_state["temp_start_date"]
+
+    def sync_end_date():
+        st.session_state["end_date"] = st.session_state["temp_end_date"]
+        st.session_state["end_date_backup"] = st.session_state["temp_end_date"]
+
+    start_date = st.sidebar.date_input(
+        "시작일", 
+        value=st.session_state["start_date_backup"], 
+        key="temp_start_date", 
+        on_change=sync_start_date
+    )
+    end_date = st.sidebar.date_input(
+        "종료일", 
+        value=st.session_state["end_date_backup"], 
+        key="temp_end_date", 
+        on_change=sync_end_date
+    )
     
     if start_date > end_date:
         st.sidebar.error("에러: 종료일이 시작일보다 빠를 수 없습니다.")
