@@ -6,12 +6,14 @@ import plotly.express as px
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from utils.naver_api import NaverAPI
+from utils.sidebar import render_sidebar
 
 st.set_page_config(page_title="블로그 검색", page_icon="📝", layout="wide")
+render_sidebar()
+
 st.title("📝 네이버 블로그 검색")
 
 if not st.session_state.get("client_id") or not st.session_state.get("client_secret"):
-    st.error("⚠️ 사이드바에서 API Key를 입력해 주세요.")
     st.stop()
 
 keywords = st.session_state.get("keywords", [])

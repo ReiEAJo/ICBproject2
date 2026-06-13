@@ -2,6 +2,7 @@ import streamlit as st
 from datetime import date, timedelta
 import os
 from dotenv import load_dotenv
+from utils.sidebar import render_sidebar
 
 load_dotenv()
 
@@ -12,36 +13,9 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Initialize Session State
-if "client_id" not in st.session_state:
-    st.session_state["client_id"] = st.secrets.get("NAVER_CLIENT_ID", os.getenv("NAVER_CLIENT_ID", ""))
-if "client_secret" not in st.session_state:
-    st.session_state["client_secret"] = st.secrets.get("NAVER_CLIENT_SECRET", os.getenv("NAVER_CLIENT_SECRET", ""))
-if "keywords" not in st.session_state:
-    st.session_state["keywords"] = []
-if "start_date" not in st.session_state:
-    st.session_state["start_date"] = date.today() - timedelta(days=30)
-if "end_date" not in st.session_state:
-    st.session_state["end_date"] = date.today()
+# 공통 사이드바 렌더링
+render_sidebar()
 
-# Sidebar Configuration
-st.sidebar.title("⚙️ 설정 (Settings)")
-
-st.sidebar.subheader("1. 검색어 (Keywords)")
-keywords_input = st.sidebar.text_input("검색어 입력 (쉼표로 구분)", placeholder="예: 스마트폰, 노트북, 태블릿")
-if keywords_input:
-    st.session_state["keywords"] = [k.strip() for k in keywords_input.split(",") if k.strip()]
-
-st.sidebar.subheader("2. 검색 기간 (Date Range)")
-st.sidebar.caption("데이터랩 트렌드 API에 주로 적용됩니다.")
-start_date = st.sidebar.date_input("시작일", value=st.session_state["start_date"])
-end_date = st.sidebar.date_input("종료일", value=st.session_state["end_date"])
-
-if start_date <= end_date:
-    st.session_state["start_date"] = start_date
-    st.session_state["end_date"] = end_date
-else:
-    st.sidebar.error("에러: 종료일이 시작일보다 빠를 수 없습니다.")
 
 # Main Page Content
 st.title("🟢 Naver API 통합 분석 대시보드")

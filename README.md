@@ -55,14 +55,18 @@ streamlit run naver-api-app/app.py
 
 ## 🛠️ 프로젝트 작업 내역
 
-### 1. Git 자동 Push Hooks 구축 (최근 작업)
+### 1. 대시보드 범용성 개선 및 공통 사이드바 리팩토링 (최근 작업)
+- **내용**: 여러 사용자가 자신의 네이버 API Key(Client ID, Client Secret)를 입력해 즉시 사용할 수 있도록 UI와 세션 구조 개선.
+- **적용**: [`utils/sidebar.py`](file:///C:/Users/Rei%20EA%20Jo/Downloads/icb10proj2/naver-api-app/utils/sidebar.py)로 공통 사이드바 컴포넌트를 분리하였으며, 메인 페이지와 모든 서브 페이지에서 동일하게 사이드바 폼을 제공하여 페이지 전환 중에도 실시간 설정 변경이 유지되도록 적용했습니다.
+
+### 2. Git 자동 Push Hooks 구축
 - **대상**: [`.git/hooks/post-commit`](file:///C:/Users/Rei%20EA%20Jo/Downloads/icb10proj2/.git/hooks/post-commit) 훅 설정
 - **내용**: 변경사항이 발생하여 로컬에서 `git commit`을 완료하면, 현재 활성화된 브랜치 명을 감지하여 자동으로 원격 저장소(`origin`)에 `git push`를 실행하도록 구현 및 적용 완료.
 
-### 2. Streamlit 배포 환경 설정
+### 3. Streamlit 배포 환경 설정
 - **내용**: 배포 환경에서 API Key를 안전하게 로드할 수 있도록 `st.secrets` 및 `.env` 파일 연동 설정을 적용하여 Streamlit Cloud 배포 진행.
 - **배포 주소**: [https://icbproject2-jfmiypxymt4azyaxyatp2q.streamlit.app/Shopping_Trend](https://icbproject2-jfmiypxymt4azyaxyatp2q.streamlit.app/Shopping_Trend)
 
-### 3. Naver API 통합 분석 대시보드 구축
+### 4. Naver API 통합 분석 대시보드 구축
 - **내용**: 네이버 오픈 API(검색, 데이터랩 트렌드 등)를 활용하여 다중 페이지 대시보드 구조 개발.
 - **대상 파일**: [`app.py`](file:///C:/Users/Rei%20EA%20Jo/Downloads/icb10proj2/naver-api-app/app.py) 및 `pages/` 폴더 내 다중 분석 스크립트.
