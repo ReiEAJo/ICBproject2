@@ -102,7 +102,11 @@ def generate_rag_answer(user_query, chat_history, retrieved_books, api_key, mode
         return f"❌ Groq API 호출 중 오류가 발생했습니다: {str(e)}"
 
 
-from ragas_evaluator import evaluate_rag_response
+try:
+    from ragas_evaluator import evaluate_rag_response
+except ImportError:
+    from yes24.ragas_evaluator import evaluate_rag_response
+
 
 
 def generate_rag_answer_with_eval(user_query, chat_history, retrieved_books, api_key, model_name="llama-3.3-70b-versatile", temperature=0.2, top_p=1.0, ground_truth=None, do_eval=True):

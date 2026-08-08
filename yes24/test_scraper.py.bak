@@ -1,0 +1,73 @@
+# -*- coding: utf-8 -*-
+import requests
+from bs4 import BeautifulSoup
+
+def test_request():
+    # yes24/docs/scraping_prompt.md에 명시된 URL
+    url = "https://www.yes24.com/product/category/BestSellerContents"
+    
+    # 쿼리 스트링 파라미터 정의
+    params = {
+        "categoryNumber": "001001003",
+        "sumGb": "06",
+        "sex": "A",
+        "age": "255",
+        "goodsTp": "0",
+        "addOptionTp": "0",
+        "excludeTp": "2",
+        "pageNumber": "1",
+        "pageSize": "24",
+        "goodsStatGb": "06",
+        "eBookTp": "0",
+        "bestType": "YES24_BESTSELLER",
+        "type": "",
+        "saleYear": "0",
+        "saleMonth": "0",
+        "weekNo": "0",
+        "saleDts": "",
+        "viewMode": "",
+        "freeYn": ""
+    }
+    
+    # 브라우저처럼 보이도록 헤더 설정 (sec-ch-ua 및 User-Agent 설정)
+    headers = {
+        "Host": "www.yes24.com",
+        "Referer": "https://www.yes24.com/product/category/bestseller?categoryNumber=001001003&pageNumber=1&pageSize=24",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36",
+        "Accept": "*/*",
+        "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7"
+    }
+    
+    print("YES24 베스트셀러 API 요청 전송 중...")
+    response = requests.get(url, params=params, headers=headers)
+    
+    if response.status_code == 200:
+        print("요청 성공 (Status Code: 200)")
+        html_content = response.text
+        
+        # 간단히 HTML 내용의 크기 출력 및 특정 상품 번호 검색
+        print(f"HTML 크기: {len(html_content)} 바이트")
+        
+        soup = BeautifulSoup(html_content, "html.parser")
+        
+        # li 태그 중 data-goods-no 속성을 가진 요소 찾기
+        items = soup.find_all("li", attrs={"data-goods-no": True})
+        print(f"발견된 상품 개수: {len(items)}개")
+        
+        for idx, item in enumerate(items, 1):
+            goods_no = item.get("data-goods-no")
+            partbook_no = item.get("data-partbook-no")
+            
+            # 상품명 파싱을 시도 (일반적으로 YES24 상품 목록에서 클래스나 태그 구조 확인 필요)
+            # 여기서는 li 태그 안의 텍스트 혹은 a 태그 텍스트 확인
+            title_tag = item.find("a", class_="gd_name")
+            title = title_tag.text.strip() if title_tag else "제목 없음"
+            
+            print(f"[{idx}] 상품번호: {goods_no} | 파트북번호: {partbook_no} | 제목: {title}")
+            
+    else:
+        print(f"요청 실패 (Status Code: {response.status_code})")
+        print(response.text[:500])
+
+if __name__ == "__main__":
+    test_request()
